@@ -102,10 +102,25 @@ struct ImageView: View {
 struct Checkmark: Shape {
     func path(in rect: CGRect) -> Path {
         var path = Path()
+        // Draw the diamond
+        let midX = rect.midX
+        let midY = rect.midY
         path.addLines([
-            CGPoint(x: rect.minX, y: rect.midY),
-            CGPoint(x: rect.midX, y: rect.maxY),
-            CGPoint(x: rect.maxX, y: rect.minY)
+            CGPoint(x: midX, y: rect.minY),
+            CGPoint(x: rect.maxX, y: midY),
+            CGPoint(x: midX, y: rect.maxY),
+            CGPoint(x: rect.minX, y: midY),
+        ])
+        path.closeSubpath()
+
+        // Draw the smaller checkmark
+        let checkStart = CGPoint(x: midX - rect.width * 0.15, y: midY)
+        let checkMid = CGPoint(x: midX - rect.width * 0.05, y: midY + rect.height * 0.15)
+        let checkEnd = CGPoint(x: midX + rect.width * 0.2, y: midY - rect.height * 0.1)
+        path.addLines([
+            checkStart,
+            checkMid,
+            checkEnd
         ])
         return path
     }
